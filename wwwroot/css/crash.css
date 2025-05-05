@@ -1,0 +1,294 @@
+﻿/* Layout ogólny */
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #2D3135;
+    color: white;
+    font-family: sans-serif;
+    background-color: #181E26;
+}
+
+/* Nagłówek u góry */
+.header {
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* Środkowa część ekranu */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    position: relative;
+}
+
+/* Dolna część z inputem i przyciskami */
+.bottom-panel {
+    padding: 30px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Styl inputa */
+input[type="number"] {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    width: 150px;
+    justify-content: center;
+    text-align: center;
+    background-color: #404040;
+    color: white;
+}
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+}
+
+/* Kontener przycisków */
+.buttons-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.buttons-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+    /* Styl przycisków */
+    .buttons-row button,
+    .buttons-content button {
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        background-color: #222a2f;
+        color: white;
+        transition: background-color 0.2s ease;
+        width: 100px;
+        height: 50px;
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+        .buttons-row button:hover,
+        .buttons-content button:hover {
+            background-color: #4b5963;
+        }
+
+/* Wspólny styl przycisku */
+.przycisk {
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    color: white;
+}
+
+/* Zielony przycisk */
+.przycisk-green {
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    color: white;
+    background-color: #4CAF50; /* zielony */
+}
+
+    .przycisk-green:hover {
+        background-color: #45a049;
+    }
+
+/* Czerwony przycisk */
+.przycisk-red {
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    color: white;
+    background-color: #f44336; /* czerwony */
+}
+
+    .przycisk-red:hover {
+        background-color: #d32f2f;
+    }
+
+/* Szary przycisk */
+.przycisk-gray {
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    color: white;
+    background-color: #222a2f;
+}
+
+    .przycisk-gray:hover {
+        background-color: #4b5963;
+    }
+
+.balance-display {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    font-size: 24px; /* Rozmiar tekstu */
+    font-weight: bold; /* Pogrubienie */
+    color: white; /* Kolor tekstu */
+    background-color: rgba(75, 89, 99, 0.2);
+    padding: 10px 20px; /* Wewnętrzne odstępy */
+    border-radius: 8px; /* Zaokrąglone rogi */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .buttons-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    input[type="number"] {
+        width: 100%;
+        background-color: #555555;
+        border: 1px solid #888888;
+        outline: none;
+    }
+}
+
+#myCanvas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1000px;
+    height: 500px;
+    z-index: -1; /* Tło za innymi elementami */
+    border-left: 10px solid #232023; /* Czarna linia po lewej stronie */
+    border-bottom: 10px solid #232023; /* Czarna linia na dole */
+    box-shadow: -10px 0 10px -10px rgba(16, 18, 24, 1), /* Gradient for left border */
+                0 10px 10px -10px rgba(16, 18, 24, 1); /* Gradient for bottom border */
+}
+
+#mysecondCanvas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1100px;
+    height: 600px;
+    background-color: #1F252D;
+    z-index: -2; /* Tło za innymi elementami */
+    border: 0px solid black;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0);
+}
+
+#MultinumberContainer {
+    position: absolute; /* Ustaw pozycjonowanie */
+    left: 17%; /* Przesuń element w lewo */
+    top: 50%; /* Wyśrodkuj w pionie */
+    left: calc(50% - 555px);
+    transform: translateY(-50%); /* Korekta wyśrodkowania w pionie */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 50px;
+    height: 500px;
+    margin-right: 10px;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+
+.multi {
+    text-align: center; /* Wyśrodkuj tekst w poziomie */
+    
+}
+
+#SeknumberContainer {
+    position: absolute; /* Ustaw pozycjonowanie */
+    top: calc(95%);
+    left: 25%;
+    transform: translateY(-50%); /* Korekta wyśrodkowania w pionie */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 50px;
+    height: 500px;
+    margin-right: 10px;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    gap: 150px;
+}
+
+.green-glow {
+    animation: canvasGreenGlow 2s infinite ease-in-out; /* Użyj istniejącej animacji canvasGlow */
+}
+
+.red-glow {
+    animation: canvasRedGlow 2s infinite ease-in-out;
+}
+
+@keyframes canvasGreenGlow {
+    0% {
+        box-shadow: 0 0 10px 5px rgba(0, 255, 0, 0.5);
+    }
+
+    50% {
+        box-shadow: 0 0 20px 10px rgba(0, 255, 0, 0.8);
+    }
+
+    100% {
+        box-shadow: 0 0 10px 5px rgba(0, 255, 0, 0.5);
+    }
+}
+
+@keyframes canvasRedGlow {
+    0% {
+        box-shadow: 0 0 10px 5px rgba(255, 0, 0, 0.5);
+    }
+
+    50% {
+        box-shadow: 0 0 20px 10px rgba(255, 0, 0, 0.8);
+    }
+
+    100% {
+        box-shadow: 0 0 10px 5px rgba(255, 0, 0, 0.5);
+    }
+}
+
+#LiczbaDisplay{
+    font-size: 48px;
+}

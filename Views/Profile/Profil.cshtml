@@ -1,0 +1,159 @@
+﻿@model BlackBank.Models.DaneUzytkownika
+
+@{
+    ViewData["Title"] = "Profil użytkownika";
+    Layout = "_ProfileLayout";  
+}
+
+<div class="profile-header mb-4">
+    <h1 class="profile-title"><i class="fas fa-user-circle me-2"></i>Twój profil</h1>
+    <p class="text-muted">Witaj ponownie, @Model.name!</p>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle me-2"></i>@TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle me-2"></i>@TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row">
+    
+    <div class="col-12 mb-4">
+        <div class="card dashboard-card account-summary-card">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-md-2 text-center mb-3 mb-md-0">
+                        <div class="account-icon-bg">
+                            <i class="fas fa-wallet account-icon"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="mb-1">Twoje środki dostępne</h5>
+                        <p class="text-muted mb-0">Rachunek główny</p>
+                        <div class="account-balance">
+                            @Model.balance.ToString("N", System.Globalization.CultureInfo.CurrentCulture) <span class="currency-symbol">PLN</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <a asp-controller="Profile" asp-action="Przelew" class="btn btn-outline-primary btn-sm me-2">
+                            <i class="fas fa-exchange-alt me-1"></i>Przelew
+                        </a>
+                        <a asp-controller="Profile" asp-action="HistoriaPrzelewow" class="btn btn-outline-secondary btn-sm">
+                            <i class="fas fa-history me-1"></i>Historia
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    
+    <div class="col-md-6 mb-4">
+        <div class="card dashboard-card h-100">
+            <div class="card-header banking-card-header d-flex justify-content-between align-items-center">
+                <div>
+                    <i class="fas fa-user me-2"></i>Dane osobowe
+                </div>
+                <a href="#" class="btn btn-sm btn-light">
+                    <i class="fas fa-pencil-alt me-1"></i>Edytuj
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <div class="avatar-container">
+                        <div class="avatar-placeholder">
+                            @(Model.name?.Substring(0, 1).ToUpper() + Model.surname?.Substring(0, 1).ToUpper())
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="profile-info-item">
+                    <div class="profile-info-label"><i class="fas fa-id-card me-2"></i>Imię i nazwisko</div>
+                    <div class="profile-info-value">@Model.name @Model.surname</div>
+                </div>
+                
+                <div class="profile-info-item">
+                    <div class="profile-info-label"><i class="fas fa-envelope me-2"></i>Email</div>
+                    <div class="profile-info-value">@Model.email</div>
+                </div>
+                
+                <div class="profile-info-item">
+                    <div class="profile-info-label"><i class="fas fa-birthday-cake me-2"></i>Wiek</div>
+                    <div class="profile-info-value">@Model.age lat</div>
+                </div>
+                
+                <div class="profile-info-item">
+                    <div class="profile-info-label"><i class="fas fa-venus-mars me-2"></i>Płeć</div>
+                    <div class="profile-info-value">@Model.gender</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="col-md-6 mb-4">
+        <div class="card dashboard-card h-100">
+            <div class="card-header banking-card-header">
+                <i class="fas fa-chart-line me-2"></i>Statystyki konta
+            </div>
+            <div class="card-body">
+                <div class="account-stats-item">
+                    <div class="stats-label">Status konta</div>
+                    <div class="stats-value">
+                        <span class="badge bg-success"><i class="fas fa-check-circle me-1"></i>Aktywne</span>
+                    </div>
+                </div>
+                
+                <div class="account-stats-item">
+                    <div class="stats-label">Ostatnie logowanie</div>
+                    <div class="stats-value">@DateTime.Now.ToString("dd.MM.yyyy HH:mm")</div>
+                </div>
+                
+                <div class="account-stats-item">
+                    <div class="stats-label">Poziom bezpieczeństwa</div>
+                    <div class="stats-value">
+                        <div class="progress" style="height: 8px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 85%;" 
+                                 aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <small class="text-muted">Bardzo dobry</small>
+                    </div>
+                </div>
+                
+                <div class="account-stats-item">
+                    <div class="stats-label">Usługi</div>
+                    <div class="stats-value">
+                        <span class="badge bg-primary me-1">Bankowość online</span>
+                        <span class="badge bg-info me-1">Powiadomienia SMS</span>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <h6 class="text-muted mb-3">Szybkie akcje</h6>
+                    <div class="d-grid gap-2">
+                        <a href="#" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-shield-alt me-1"></i>Ustawienia bezpieczeństwa
+                        </a>
+                        <form asp-controller="Home" asp-action="Wyloguj" method="post" class="d-grid">
+                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                <i class="fas fa-sign-out-alt me-1"></i>Wyloguj się
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

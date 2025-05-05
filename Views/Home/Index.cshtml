@@ -1,0 +1,264 @@
+﻿@{
+    ViewData["Title"] = "Strona główna";
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div id="errorAlert" class="alert alert-danger">
+        <p>@TempData["ErrorMessage"]</p>
+    </div>
+    <script>
+        setTimeout(function () {
+            var alert = document.getElementById("errorAlert");
+            if (alert) {
+                alert.style.transition = "opacity 0.5s";
+                alert.style.opacity = "0";
+                setTimeout(function () {
+                    alert.remove();
+                }, 500);
+            }
+        }, 3000);
+    </script>
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/main-site.css" />
+}
+<!-- Hero Banner Section -->
+<div class="hero-banner mb-5">
+    <div class="text-center py-4">
+        <h1 class="mb-3">Każdy hazardzista kończy grać <br>przed największą wygraną</h1>
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <a href="#" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#RegModal">Zarejestruj się</a>
+            <div class="mt-3 text-muted">
+                lub zarejestruj się przez
+                <div class="social-login-buttons mt-2">
+                    <button class="btn btn-outline-secondary btn-sm mx-1"><i class="fab fa-facebook"></i></button>
+                    <button class="btn btn-outline-secondary btn-sm mx-1"><i class="fab fa-google"></i></button>
+                    <button class="btn btn-outline-secondary btn-sm mx-1"><i class="fab fa-apple"></i></button>
+                    <button class="btn btn-outline-secondary btn-sm mx-1"><i class="fab fa-twitch"></i></button>
+                </div>
+            </div>
+        }
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="feature-card">
+                <div class="card bg-dark text-white border-0">
+                    <div class="card-body p-4">
+                        <div class="card-badge"><i class="fas fa-dice"></i> Kasyno</div>
+                        <div class="d-flex align-items-center">
+                            <img src="~/img/casino-thumb.jpg" class="feature-img" alt="Kasyno">
+                            <div class="ms-3">
+                                <div class="online-indicator">
+                                    <span class="dot"></span> @ViewBag.ActiveUsers online
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="feature-card">
+                <div class="card bg-dark text-white border-0">
+                    <div class="card-body p-4">
+                        <div class="card-badge"><i class="fas fa-landmark"></i> Bank</div>
+                        <div class="d-flex align-items-center">
+                            <img src="~/img/bank-thumb.jpg" class="feature-img" alt="Bank">
+                            <div class="ms-3">
+                                <div class="online-indicator">
+                                    <span class="dot"></span> @ViewBag.TotalUsers zarejestrowanych
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Popularne gry section -->
+<div class="section-header">
+    <h2 class="section-title"><i class="fas fa-dice me-2"></i> Popularne gry</h2>
+    <div class="section-actions">
+        <button class="btn btn-outline-secondary btn-sm carousel-nav prev-btn"><i class="fas fa-chevron-left"></i></button>
+        <button class="btn btn-outline-secondary btn-sm carousel-nav next-btn"><i class="fas fa-chevron-right"></i></button>
+    </div>
+</div>
+
+<div class="row game-row">
+    <!-- BlackJack -->
+    <div class="col-md-4 game-column">
+        <div class="game-card">
+            <span class="game-number">1</span>
+            <div class="game-img-container">
+                <img src="~/img/games/blackjack.jpg" class="game-img" alt="BlackJack">
+            </div>
+            <div class="game-body">
+                <div class="game-title">BlackJack</div>
+                <div class="game-stats">
+                    <span class="online-dot"></span> @ViewBag.BlackJackPlayers w grze
+                </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="mt-3">
+                        <a asp-controller="Casino" asp-action="BlackJack" class="btn btn-primary w-100">Zagraj teraz</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="game-overlay">
+                        <i class="fas fa-lock lock-icon"></i>
+                        <p>Zaloguj się, aby grać</p>
+                        <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#LoginModal">
+                            Zaloguj się
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    
+    <!-- Crash -->
+    <div class="col-md-4 game-column">
+        <div class="game-card">
+            <span class="game-number">2</span>
+            <div class="game-img-container">
+                <img src="~/img/games/crash.jpg" class="game-img" alt="Crash">
+                <div class="game-badge">EXCLUSIVE</div>
+            </div>
+            <div class="game-body">
+                <div class="game-title">Crash</div>
+                <div class="game-stats">
+                    <span class="online-dot"></span> @ViewBag.CrashPlayers w grze
+                </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="mt-3">
+                        <a asp-controller="Casino" asp-action="Crash" class="btn btn-primary w-100">Zagraj teraz</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="game-overlay">
+                        <i class="fas fa-lock lock-icon"></i>
+                        <p>Zaloguj się, aby grać</p>
+                        <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#LoginModal">
+                            Zaloguj się
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slots -->
+    <div class="col-md-4 game-column">
+        <div class="game-card">
+            <span class="game-number">3</span>
+            <div class="game-img-container">
+                <img src="~/img/games/slots.jpg" class="game-img" alt="Slotsy">
+            </div>
+            <div class="game-body">
+                <div class="game-title">Slotsy</div>
+                <div class="game-stats">
+                    <span class="online-dot"></span> @ViewBag.SlotsPlayers w grze
+                </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="mt-3">
+                        <a asp-controller="Casino" asp-action="Slots" class="btn btn-primary w-100">Zagraj teraz</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="game-overlay">
+                        <i class="fas fa-lock lock-icon"></i>
+                        <p>Zaloguj się, aby grać</p>
+                        <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#LoginModal">
+                            Zaloguj się
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <!-- Bank features section for logged in users -->
+    <div class="section-header mt-5">
+        <h2 class="section-title"><i class="fas fa-landmark me-2"></i> Zarządzaj kontem</h2>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="game-card">
+                <div class="game-body">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="fas fa-wallet fa-3x text-primary"></i>
+                        </div>
+                        <div>
+                            <div class="game-title">Stan konta</div>
+                            <div class="fs-3 fw-bold">@ViewBag.Balance PLN</div>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <a asp-controller="Profile" asp-action="Deposits" class="btn btn-primary w-100">Wpłać środki</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="game-card">
+                <div class="game-body">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="fas fa-exchange-alt fa-3x text-success"></i>
+                        </div>
+                        <div>
+                            <div class="game-title">Szybki przelew</div>
+                            <div class="game-stats">Wykonaj przelew do znajomych</div>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <a asp-controller="Profile" asp-action="Przelew" class="btn btn-success w-100">Wykonaj przelew</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="game-card">
+                <div class="game-body">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="fas fa-history fa-3x text-warning"></i>
+                        </div>
+                        <div>
+                            <div class="game-title">Historia transakcji</div>
+                            <div class="game-stats">Przelewy i gry</div>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <a asp-controller="Profile" asp-action="HistoriaPrzelewow" class="btn btn-warning w-100">Zobacz historię</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+
+
+
+

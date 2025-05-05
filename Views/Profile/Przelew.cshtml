@@ -1,0 +1,68 @@
+﻿@model BlackBank.Models.Api.PrzelewRequestModel
+
+@{
+    ViewData["Title"] = "Wykonaj przelew";
+    Layout = "_ProfileLayout";
+}
+
+<div class="profile-header mb-4">
+    <h1 class="profile-title"><i class="fas fa-exchange-alt me-2"></i>Wykonaj przelew</h1>
+    <p class="text-muted">Przelewaj środki na inne konta w BlackBank</p>
+</div>
+
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card dashboard-card">
+            <div class="card-body">
+                <form asp-controller="Profile" asp-action="WykonajPrzelew" method="post">
+                    <div class="mb-4">
+                        <label asp-for="EmailOdbiorcy" class="form-label">Email odbiorcy</label>
+                        <input asp-for="EmailOdbiorcy" class="form-control" placeholder="np. jan.kowalski@example.com"/>
+                        <span asp-validation-for="EmailOdbiorcy" class="text-danger"></span>
+                        <small class="form-text text-muted">Wprowadź email użytkownika, do którego chcesz wysłać środki.</small>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label asp-for="Kwota" class="form-label">Kwota przelewu</label>
+                        <div class="input-group">
+                            <input asp-for="Kwota" class="form-control" placeholder="0.00" type="number" step="0.01" min="0.01"/>
+                            <span class="input-group-text">PLN</span>
+                        </div>
+                        <span asp-validation-for="Kwota" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label asp-for="Tytul" class="form-label">Tytuł przelewu</label>
+                        <input asp-for="Tytul" class="form-control" placeholder="Wpisz tytuł przelewu"/>
+                        <span asp-validation-for="Tytul" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <div class="d-flex">
+                            <div class="me-3">
+                                <i class="fas fa-info-circle fa-2x"></i>
+                            </div>
+                            <div>
+                                <h5 class="alert-heading">Informacja o przelewie</h5>
+                                <p class="mb-0">Przelew zostanie zrealizowany natychmiast. Upewnij się, że wprowadzone dane są poprawne.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mt-4">
+                        <a asp-controller="Profile" asp-action="Profil" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-1"></i>Powrót
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane me-1"></i>Wykonaj przelew
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

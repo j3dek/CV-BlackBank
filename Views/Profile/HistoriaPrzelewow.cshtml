@@ -1,0 +1,140 @@
+@model BlackBank.Models.ViewModels.HistoriaTransakcjiViewModel
+
+@{
+    ViewData["Title"] = "Historia przelewów";
+    Layout = "_ProfileLayout";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/transaction-history.css" />
+}
+<div class="profile-header mb-4">
+    <h1 class="profile-title"><i class="fas fa-history me-2"></i>Historia przelewów</h1>
+    <p class="text-muted">Wszystkie przelewy przychodzące i wychodzące</p>
+</div>
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card dashboard-card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h5 class="mb-1">Aktualny stan konta</h5>
+                        <div class="account-balance-small">
+                            @Model.AktualnySaldoKonta.ToString("N", System.Globalization.CultureInfo.CurrentCulture) <span class="currency-symbol">@Model.Waluta</span>
+                        </div>
+                    </div>
+                    <a asp-controller="Profile" asp-action="Przelew" class="btn btn-primary btn-sm">
+                        <i class="fas fa-exchange-alt me-1"></i>Nowy przelew
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card dashboard-card">
+            <div class="card-header banking-card-header d-flex justify-content-between align-items-center">
+                <div>
+                    <i class="fas fa-exchange-alt me-2"></i>Transakcje
+                </div>
+                
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary active filter-btn" data-filter="all">Wszystkie</button>
+                    <button type="button" class="btn btn-sm btn-outline-success filter-btn" data-filter="incoming">Przychodzące</button>
+                    <button type="button" class="btn btn-sm btn-outline-danger filter-btn" data-filter="outgoing">Wychodzące</button>
+                </div>
+            </div>
+            <div class="card-body">
+                @if (Model.Transakcje.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover transaction-table">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Typ</th>
+                                    <th>Kontrahent</th>
+                                    <th>Tytuł</th>
+                                    <th class="text-end">Kwota</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var transakcja in Model.Transakcje)
+                                {
+                                    <tr class="transaction-row @(transakcja.Typ == "Przychodzący" ? "incoming" : "outgoing")">
+                                        <td>@transakcja.DataPrzelewu.ToString("dd.MM.yyyy HH:mm")</td>
+                                        <td>
+                                            @if (transakcja.Typ == "Przychodzący")
+                                            {
+                                                <span class="badge bg-success">
+                                                    <i class="fas fa-arrow-down me-1"></i>Przychodzący
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">
+                                                    <i class="fas fa-arrow-up me-1"></i>Wychodzący
+                                                </span>
+                                            }
+                                        </td>
+                                        <td>@transakcja.Kontrahent</td>
+                                        <td>@transakcja.Tytul</td>
+                                        <td class="text-end">
+                                            <span class="@(transakcja.Typ == "Przychodzący" ? "text-success" : "text-danger")">
+                                                @(transakcja.Typ == "Przychodzący" ? "+" : "-")@transakcja.Kwota.ToString("N2") @Model.Waluta
+                                            </span>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-5">
+                        <i class="fas fa-receipt fa-3x text-muted mb-3"></i>
+                        <h5>Brak transakcji</h5>
+                        <p class="text-muted">Nie wykonano jeszcze żadnych przelewów na tym koncie.</p>
+                        <a asp-controller="Profile" asp-action="Przelew" class="btn btn-primary mt-2">
+                            <i class="fas fa-exchange-alt me-1"></i>Wykonaj pierwszy przelew
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-4">
+    <a asp-controller="Profile" asp-action="Profil" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-1"></i>Powrót do profilu
+    </a>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Filtrowanie transakcji
+            $('.filter-btn').click(function() {
+                $('.filter-btn').removeClass('active');
+                $(this).addClass('active');
+                
+                var filterValue = $(this).data('filter');
+                
+                if (filterValue === 'all') {
+                    $('.transaction-row').show();
+                } else if (filterValue === 'incoming') {
+                    $('.transaction-row').hide();
+                    $('.transaction-row.incoming').show();
+                } else if (filterValue === 'outgoing') {
+                    $('.transaction-row').hide();
+                    $('.transaction-row.outgoing').show();
+                }
+            });
+        });
+    </script>
+}
+

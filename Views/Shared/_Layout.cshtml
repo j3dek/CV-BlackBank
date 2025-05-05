@@ -1,0 +1,247 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - BlackBank</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/BlackBank.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <a asp-controller="Home" asp-action="Index">
+                    <img src="~/img/logo.png" alt="BlackBank Logo" class="logo" />
+                </a>
+            </div>
+            <div class="category-buttons">
+                <button id="bankButton" class="category-btn active" onclick="switchCategory('bank')">BANK</button>
+                <button id="casinoButton" class="category-btn" onclick="switchCategory('casino')">KASYNO</button>
+            </div>
+            <div id="bankNav" class="sidebar-nav">
+                <ul>
+                    <li class="nav-item">
+                        <a asp-controller="Home" asp-action="Profil" class="nav-link">
+                            <i class="fas fa-home me-2"></i> Strona główna
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Profile" asp-action="Index" class="nav-link">
+                            <i class="fas fa-user me-2"></i> Mój profil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Profile" asp-action="Przelew" class="nav-link">
+                            <i class="fas fa-exchange-alt me-2"></i> Przelewy
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Profile" asp-action="HistoriaPrzelewow" class="nav-link">
+                            <i class="fas fa-history me-2"></i> Historia
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Profile" asp-action="Pomoc" class="nav-link">
+                            <i class="fas fa-question-circle me-2"></i> Pomoc
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div id="casinoNav" class="sidebar-nav" style="display: none;">
+                <ul>
+                    <li class="nav-item">
+                        <a asp-controller="Casino" asp-action="Index" class="nav-link">
+                            <i class="fas fa-dice me-2"></i> Wszystkie gry
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Casino" asp-action="BlackJack" class="nav-link">
+                            <i class="fas fa-diamond me-2"></i> BlackJack
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Casino" asp-action="Crash" class="nav-link">
+                            <i class="fas fa-chart-line me-2"></i> Crash
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Casino" asp-action="Slots" class="nav-link">
+                            <i class="fas fa-money-bill me-2"></i> Slotsy
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Profile" asp-action="Deposits" class="nav-link">
+                            <i class="fas fa-wallet me-2"></i> Wpłaty/Wypłaty
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="main-content">
+            <header>
+                <nav class="navbar navbar-expand navbar-light bg-dark">
+                    <div class="container-fluid">
+                        <div class="collapse navbar-collapse justify-content-end">
+                            <ul class="navbar-nav">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-user-circle me-1"></i> Moje Konto
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                            <li><a class="dropdown-item" asp-controller="Profile" asp-action="Index"><i class="fas fa-user me-1"></i> Profil</a></li>
+                                            <li><a class="dropdown-item" asp-controller="Profile" asp-action="Przelew"><i class="fas fa-exchange-alt me-1"></i> Wykonaj przelew</a></li>
+                                            <li><a class="dropdown-item" asp-controller="Profile" asp-action="HistoriaPrzelewow"><i class="fas fa-history me-1"></i> Historia przelewów</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li>
+                                                <form asp-controller="Home" asp-action="Wyloguj" method="post">
+                                                    <button type="submit" class="dropdown-item text-danger">
+                                                        <i class="fas fa-sign-out-alt me-1"></i> Wyloguj się
+                                                    </button>
+                                                </form>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="nav-item">
+                                        <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#LoginModal">
+                                            Zaloguj się
+                                        </button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#RegModal">
+                                            Zarejestruj się
+                                        </button>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+
+            <div class="content-container">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div>
+
+            @* <footer class="border-top footer text-muted">
+                <div class="container">
+                    &copy; 2025 - BlackBank - Wszystkie prawa zastrzeżone
+                </div>
+            </footer> *@
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+        function switchCategory(category) {
+            if (category === 'bank') {
+                document.getElementById('bankNav').style.display = 'block';
+                document.getElementById('casinoNav').style.display = 'none';
+                document.getElementById('bankButton').classList.add('active');
+                document.getElementById('casinoButton').classList.remove('active');
+            } else {
+                document.getElementById('bankNav').style.display = 'none';
+                document.getElementById('casinoNav').style.display = 'block';
+                document.getElementById('bankButton').classList.remove('active');
+                document.getElementById('casinoButton').classList.add('active');
+            }
+        }
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <!-- Modals -->
+    <div class="modal fade" id="LoginModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="LoginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content text-white bg-dark border-0 rounded">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="LoginModalLabel">Zaloguj się do <strong>BlackBank</strong></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form asp-controller="Home" asp-action="Logowanie" method="post">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email *</label>
+                            <input type="text" class="form-control bg-secondary text-white border-0" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Hasło *</label>
+                            <input type="password" class="form-control bg-secondary text-white border-0" id="password" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Zaloguj się</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="RegModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="RegModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content text-white bg-dark border-0 rounded">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="RegModalLabel">Załóż konto w <strong>BlackBank</strong></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <form asp-controller="Home" asp-action="Rejestracja" method="post">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email *</label>
+                            <input type="email" class="form-control bg-secondary text-white border-0" id="email" name="email" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Imię *</label>
+                            <input type="text" class="form-control bg-secondary text-white border-0" id="name" name="name" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="surname" class="form-label">Nazwisko *</label>
+                            <input type="text" class="form-control bg-secondary text-white border-0" id="surname" name="surname" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Hasło *</label>
+                            <input type="password" class="form-control bg-secondary text-white border-0" id="password" name="password" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="gender" class="form-label">Płeć *</label>
+                            <select class="form-control bg-secondary text-white border-0" id="gender" name="gender" required>
+                                <option value="" disabled selected>Wybierz płeć</option>
+                                <option value="male">Mężczyzna</option>
+                                <option value="female">Kobieta</option>
+                                <option value="other">Inna</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="age" class="form-label">Wiek *</label>
+                            <input type="number" class="form-control bg-secondary text-white border-0" id="age" name="age" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100">Kontynuuj</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

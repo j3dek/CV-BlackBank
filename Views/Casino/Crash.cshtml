@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Crash Game";
+    
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="/css/crash.css">
+    <script src="/js/crash.js" defer></script>
+</head>
+<body>
+    <div class="header">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+    <div class="main-content">
+        <div id="MultinumberContainer">
+            <div class="multi" id="multinum1">0</div>
+            <div class="multi" id="multinum2">0</div>
+            <div class="multi" id="multinum3">0</div>
+            <div class="multi" id="multinum4">0</div>
+            <div class="multi" id="multinum5">0</div>
+        </div>
+        <div id="SeknumberContainer">
+            <div class="sek" id="seknum1">1s</div>
+            <div class="sek" id="seknum2">2s</div>
+            <div class="sek" id="seknum3">3s</div>
+            <div class="sek" id="seknum4">5s</div>
+            <div class="sek" id="seknum5">8s</div>
+            <div class="sek" id="seknum6">14s</div>
+        </div>
+        <canvas id="myCanvas" width="1800" height="1000"></canvas>
+        <canvas id="mysecondCanvas" width="1800" height="1000"></canvas>
+        <h1 class="display-1"><span id="liczbaDisplay" style="font-size: 86px;" >x0</span></h1>
+        <button style="width: 300px;" id="przycisk-gray" class="przycisk-gray" onclick="StartFunc()">Start</button>
+    </div>
+
+    <div class="bottom-panel">
+        <input type="number" id="typeNumber" class="form-control" placeholder="Podaj kwotę" value="0" />
+
+        <div class="buttons-content">
+            <div class="buttons-row">
+                <button onclick="dodaj(5)">+5$</button>
+                <button onclick="dodaj(10)">+10$</button>
+                <button onclick="dodaj(20)">+20$</button>
+                <button onclick="dodaj(50)">+50$</button>
+            </div>
+            <div class="buttons-row">
+                <button onclick="usun(0.5)">1/2</button>
+                <button onclick="usun(0.25)">1/4</button>
+                <button style="width: 210px;" onclick="usun(0)">clear</button>
+            </div>
+        </div>
+    </div>
+    <div class="balance-display">
+        Balance: <span id="balanceDisplay">@ViewBag.Balance PLN</span>
+    </div>
+</body>
+</html>
