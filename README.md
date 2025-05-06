@@ -1,4 +1,8 @@
 # BlackBank - Bank-Kasyno Online
+## Autorzy
+- Jędrzej Steckiewicz
+- Jakub Siedlecki
+- Marcin Sejbuk
 ## Opis projektu
 BlackBank to interaktywna platforma kasyna online opracowana przy użyciu ASP.NET Core. Projekt oferuje różne gry hazardowe, z których główną jest „Crash" - dynamiczna gra, w której gracze obstawiają, jak wysoko wzrośnie mnożnik przed "crashem" (nagłym zatrzymaniem)
 
