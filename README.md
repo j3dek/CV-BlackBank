@@ -50,3 +50,6 @@ System kont użytkowników
 - Tabela rankingowa najlepszych graczy
 
 ## Zrzuty Ekranu
+![image](https://github.com/user-attachments/assets/17392248-a5f6-4706-9023-1d9ac339998c)
+![image](https://github.com/user-attachments/assets/05d40e5f-da3c-4342-b728-226da36627da)
+![image](https://github.com/user-attachments/assets/d8db1657-c178-4521-ae10-6d96b064b10e)
